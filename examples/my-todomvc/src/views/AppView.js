@@ -3,11 +3,60 @@ import React from 'react';
 // just forwarding along our props here in AppView to the child components
 const AppView = props => (
   <div>
-    <Header {...props} />
-    <Main {...props} />
-    <Footer {...props} />
+    <section>
+      <NewTodoView {...props} />
+    </section>
+    <section>
+      <Header {...props} />
+      <Main {...props} />
+      <Footer {...props} />
+    </section>
   </div>
 );
+
+// we have the draftContents in the TodoDraftStore that has been passed down
+// to this component in props (and coincidentally through parent component
+// of AppView)
+// TODO: stateless functional component, but how can we set the focus back to the
+// input when hitting enter?
+// TODO: we have a button, but what about a form instead to allow user to hit enter?
+// and set up the refocusing
+/*
+<button onClick={(event) => {
+        event.preventDefault();
+        props.onAddNewTodo(currentDraftContents);
+      }}>Add Todo</button>
+*/
+// stateless functional components cannot have refs
+// interesting: input type="submit" when given a text value throws a
+// propTypes error! (doesn't recognize this against a normal input?) thus,
+// i've changed this to a button element instead
+// TODO: better way to autofocus than using document.querySelector?
+// seems like this is a sort of side effect when submitting (we modify the
+// focus), so maybe shouldn't have this be stateless functional?
+// TODO: styling here is a bit strange when I do section and h1 elements
+const NewTodoView = props => {
+  const currentDraftContents = props.draftContents;
+  return (
+    <div>
+      <p>Add New Todo</p>
+      <form noValidate onSubmit={event => {
+        event.preventDefault();
+        props.onAddNewTodo(currentDraftContents);  
+        document.querySelector('#newTodoDraftContents').focus();      
+      }}>
+        <input id="newTodoDraftContents"
+               type="text"
+               value={currentDraftContents}
+               onChange={event => {
+                 props.onUpdateDraft(event.target.value);
+               }} />
+        <button type="submit">Add Todo</button>
+      </form>      
+    </div>
+  );
+};
+
 
 const Header = (props) => (
   <header id="header">

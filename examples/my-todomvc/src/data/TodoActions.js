@@ -6,6 +6,7 @@ import TodoDispatcher from './TodoDispatcher';
 // action types
 const Actions = {
   addTodo(text) {
+    console.log('executing addTodo action');
     TodoDispatcher.dispatch({
       type: TodoActionTypes.ADD_TODO,
       text,
@@ -25,7 +26,15 @@ const Actions = {
       type: TodoActionTypes.TOGGLE_TODO,
       id,
     });
-  }
+  },
+
+  updateDraft(draftContents) {
+    console.log('updating todos draft contents');
+    TodoDispatcher.dispatch({
+      type: TodoActionTypes.UPDATE_DRAFT,
+      draftContents,
+    });
+  },
 };
 
 export default Actions;
