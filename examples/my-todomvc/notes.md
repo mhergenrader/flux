@@ -8,6 +8,11 @@
     == (shallow equals) operator! if so, then the emit the changes, and the containers
     will receive those changes and create the new view components, forwarding the updated
     store state and actions, etc. as props to the new UI component
+- push to your own repo on github, and just make sure when the notification for compare
+  and pull request pops up, that you just make sure the forked copy is selected (looks
+  like for forked projects, even if you route the push to your own copy, it will suggest
+  the original project to open the pull request for)
+
 
 # TODOS
 - use strict at top of each module?
@@ -18,3 +23,6 @@
       need it, and their this in the top level is the exports
       object (but perhaps )
 - why do I have to refresh? shouldn't it hot reload automatically?
+- interesting warning when clicking button in edit form:
+  "Form submission canceled because the form is not connected"
+- better way to autofocus the input element in SFC than querySelector? seems a little hacky...

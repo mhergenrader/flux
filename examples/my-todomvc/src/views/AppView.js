@@ -89,33 +89,118 @@ const Main = props => {
   // iterator to make a new array
 
   // also: for JSX syntax: remember: no semicolons, etc.: just JS expressions
+  // interesting that onDoubleClick didn't register when I put this directly
+  // on the TodoItem here - only when added to the LI item it contains
   return (
     <section id="main">
       <ul id="todo-list">
-        {
-          todosList.map(todo => (
-            <li key={todo.id}>
-              <div className="view">
-                <input className="toggle"
-                      type="checkbox"
-                      checked={todo.complete}
-                      onChange={() => {
-                        props.onToggleTodo(todo.id);
-                      }} />
-                <label>
-                  {todo.text}
-                </label>
-                <button className="destroy"
-                        onClick={() => {
-                          props.onDeleteTodo(todo.id);
-                        }} />
-              </div>
-            </li>
-          ))
-        }
+        {todosList.map(todo =>
+          <TodoItem key={todo.id}
+                    todo={todo}
+                    editTodoState={props.editTodoState}
+                    onEditTodo={props.onEditTodo}
+                    onStartEditTodo={props.onStartEditTodo}
+                    onStopEditTodo={props.onStopEditTodo}
+                    onToggleTodo={props.onToggleTodo}
+                    onEditTodoText={props.onEditTodoText}
+                    />)}
       </ul>
       <button onClick={props.onMarkAllComplete}>Mark All Complete</button>
     </section>
+  );
+};
+
+
+// startEditing todo is when double click happens, and then the view should
+// render an input field
+// stopEditing todo is when we cancel
+// editTodo is the action that will push the submitted changes to the 
+// TodoStore (submit)
+// we look at the current todo being edited to see if it matches our todo's
+// id, and if so, then we should render the input
+const TodoItem = props => {
+
+  //<li key={todo.id}>
+  const editingTodo = props.editTodoState.get('id') === props.todo.id;
+  const todo = props.todo;
+
+  console.log(`todo with ${todo.id} being edited? ${editingTodo}`);
+  
+  const submitTodoEditText = () => { // technically gets event, but not used here
+    const todoText = props.editTodoState.get('currentTodoText');
+    event.preventDefault();
+    if (todoText) {
+      props.onEditTodo(todo.id, todoText);
+      props.onStopEditTodo(todo.id);
+    }
+  };
+
+  // notice the use of event delegation here on the form element!
+  // captures any submit events from the input box and the button
+  // notice that we need to put the todo text in a state store somewhere
+  // to be managed - this is because we have stateless functional components
+  // here, so the submit event here cannot just grab the element text value
+  // out of the input, as far as I know (could be multiple possible targets,
+  // due to event delegation, and can't use state or refs in stateless functional
+  // components)
+  // thus, we can store the text inside the edit store as well,
+
+  // TODO:
+  // React giving warnings about controlled components when attaching my input element up to the more central state store
+  // I'm assuming controlled means that we impose the value state maintained by the HTML element to be whatever React has
+  // whereas uncontrolled = just let that input have its own state and pick up later?
+  // seems like we have to control it - how else to grab the state and maintain good UI from functional stateless component
+  // like this? (since we use event delegation and SFC's don't have refs/state themselves to find that input element)
+  // DONE: the || syntax to prefill the edit is hacky - let's remove that
+  // value={props.editTodoState.get('currentTodoText') || todo.text} (this was the line)
+  // now, just make sure startTodo takes the current text to prefill it
+  // after all, the input should only depend on our current state
+
+  if (editingTodo) {
+    return (
+      <li>
+        <div>
+          <form noValidate onSubmit={submitTodoEditText}>
+            <input id={'edit-todo-' + todo.id}
+                   type="text"
+                   placeholder="Edit new Todo text"
+                   value={props.editTodoState.get('currentTodoText')}
+                   onChange={ (event) => {
+                     props.onEditTodoText(event.target.value);
+                   }}/>
+            <button type="submit">Save</button>
+            <button onClick={() => {
+              props.onStopEditTodo(todo.id);
+            }} >Cancel</button>
+          </form>
+          
+        </div>
+      </li>
+    );
+  }
+
+
+  return (
+    <li onDoubleClick={(event) => {
+        console.log(`start editing todo with id ${todo.id}`);
+        props.onStartEditTodo(todo.id, todo.text);
+      }}>
+      <div className="view">
+        <input className="toggle"
+              type="checkbox"
+              checked={todo.complete}
+              onChange={() => {
+                props.onToggleTodo(todo.id);
+              }} />
+        <label>
+          {todo.text}
+        </label>
+        <button className="destroy"
+                onClick={() => {
+                  props.onDeleteTodo(todo.id);
+                }} />
+      </div>
+    </li>
   );
 };
 

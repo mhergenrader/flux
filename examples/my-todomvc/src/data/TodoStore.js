@@ -74,6 +74,13 @@ class TodoStore extends ReduceStore {
         // note below that todo.set returns a new object here, so we can use
         // this as a no block arrow function
         return state.map(todo => todo.set('complete', true));
+      
+      case TodoActionTypes.EDIT_TODO:
+        console.log(`TodoStore updating todo ${action.id} with text = '${action.savedTodoText}'`);
+        return state.update(
+          action.id,
+          todo => todo.set('text', action.savedTodoText)
+        );
 
 
       default: // any other action = just give the state back as we had it before

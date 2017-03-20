@@ -5,6 +5,7 @@ import {Container} from 'flux/utils'; // creates FluxContainer
 
 import TodoStore from '../data/TodoStore';
 import TodoDraftStore from '../data/TodoDraftStore';
+import TodoEditStore from '../data/TodoEditStore';
 
 import TodoActions from '../data/TodoActions';
 
@@ -15,6 +16,7 @@ import TodoActions from '../data/TodoActions';
 const getStores = () => [
   TodoStore,
   TodoDraftStore, // TODO: actions dispatched to these stores in any order? does it matter? (since we have a list here)
+  TodoEditStore,
 ];
 
 // TODO: (remaining functionality: 6-1)
@@ -61,6 +63,8 @@ the views are controlled by containers under the Flux architecture
 const getState = () => ({
   todos: TodoStore.getState(), // todosById in an immutable map
   draftContents: TodoDraftStore.getState(), // strings are immutable by default
+
+  editTodoState: TodoEditStore.getState(),
   
   onDeleteTodo: TodoActions.deleteTodo, // naming here is interesting: these are called at the
   // invocation of some event in the UI, so it seems the "on" prefix is warranted here: we want
@@ -75,6 +79,14 @@ const getState = () => ({
   onClearCompleted: TodoActions.clearCompleted,
 
   onMarkAllComplete: TodoActions.markAllComplete,
+
+  onStartEditTodo: TodoActions.startEditingTodo,
+
+  onStopEditTodo: TodoActions.stopEditingTodo,
+
+  onEditTodo: TodoActions.editTodo,
+
+  onEditTodoText: TodoActions.editTodoText,
 
 }); // interesting here that they are passed down as "state"
 
