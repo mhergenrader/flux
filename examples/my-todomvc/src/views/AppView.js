@@ -103,6 +103,7 @@ const Main = props => {
                     onStopEditTodo={props.onStopEditTodo}
                     onToggleTodo={props.onToggleTodo}
                     onEditTodoText={props.onEditTodoText}
+                    onDeleteTodo={props.onDeleteTodo}
                     />)}
       </ul>
       <button onClick={props.onMarkAllComplete}>Mark All Complete</button>

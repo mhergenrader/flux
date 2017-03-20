@@ -26,3 +26,25 @@
 - interesting warning when clicking button in edit form:
   "Form submission canceled because the form is not connected"
 - better way to autofocus the input element in SFC than querySelector? seems a little hacky...
+  - solution uses autoFocus attribute
+
+# Observations after completing exercises against solution
+- indeed the EDIT_TODO action was for submitting the edit text
+  - my original implementation of this with just the id was matching solution,
+    and receiving just the start and stop edit todo events; the edit todo
+    event (essentially submit) was received by TodoStore only
+- solution also picked out individual props to send down to the TodoItem component
+  - long list of these - perhaps refactoring like I mentioned in my own pull
+    request would be a good idea (more containers that had more focused
+    subscriptions to stores)
+- onBlur event useful for cancellation (just getting outside of the edit box)
+- interesting that 'input' variable assigned no matter what - remember: if something
+  is null, React won't render it
+  - its value was the current todo.text
+- ah, but the functionality was slightly different here: the solution would have
+  both an enter keypress and onBlur both send the stopEditingTodo, and each keypress
+  to edit the text would change the todo text directly; my solution was more of a
+  temporary text and then commit when you save instead
+  - onStopEditTodo more used for signaling to hide the input and reset the TodoEditStore
+    state
+- interesting that solution didn't use a form surrounding the input element
