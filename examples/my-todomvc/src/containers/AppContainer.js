@@ -51,7 +51,13 @@ the views are controlled by containers under the Flux architecture
 */
 
 // executes this when stores have emitted change events to then get the latest
-// state for the wrapped component
+// state for the wrapped component - my thinking here is that when stores
+// emit events, the container will then on change, create a new react component
+// for the one that is wrapped, execute the getState method here to get
+// all the state, and pass that in as props (correct on the props piece)
+// and it perhaps creates a new container component itself, since it also
+// takes in a callback that produces references to the stores, likely then
+// to subscribe to them again for this newest component
 const getState = () => ({
   todos: TodoStore.getState(), // todosById in an immutable map
   draftContents: TodoDraftStore.getState(), // strings are immutable by default
