@@ -1,12 +1,16 @@
 // containers connect state from stores back to views
 
 import AppView from '../views/AppView';
-import {Container} from 'flux/utils';
+import {Container} from 'flux/utils'; // creates FluxContainer
 
 import TodoStore from '../data/TodoStore';
 import TodoDraftStore from '../data/TodoDraftStore';
 
 import TodoActions from '../data/TodoActions';
+
+// stores callback for a container that we are creating
+// state to inject the state into the component/mix it in for the view
+// likely that the container subscribes the view to the stores specified
 
 const getStores = () => [
   TodoStore,
@@ -17,6 +21,37 @@ const getStores = () => [
 // only part I'm not entirely sure about here: should we have separate containers?
 // we have the view all nested under AppView, but should the new todo be a separate
 // part of the UI, such that we should have a separate container for it?
+
+// notes from docs: if a view uses a store but doesn't subscribe to it, then
+// likely a bug; I think the container from flux provides this subscription setup
+
+/*
+flux docs: Container
+- react components that control a view
+- gather info from stores and save in their state
+- no props, no UI logic
+
+indeed container create makes a react class component into a container that updates
+state when relevant stores change that the container looks at (sets up the
+subscriptions)
+
+containers are pure by default: do not rerender when props and state don't change
+(determined via ==)
+- cannot access props (for perf reasons)
+
+just think of containers as UI component wrappers (that are components themselves)
+that automatically subscribe to the stores you specify
+- auto updates component state if registered stores emit change event
+- assumes that component does not depend on other parts of app state
+
+
+
+the views are controlled by containers under the Flux architecture
+- the receive all info and callbacks as props
+*/
+
+// executes this when stores have emitted change events to then get the latest
+// state for the wrapped component
 const getState = () => ({
   todos: TodoStore.getState(), // todosById in an immutable map
   draftContents: TodoDraftStore.getState(), // strings are immutable by default
@@ -34,4 +69,6 @@ const getState = () => ({
 }); // interesting here that they are passed down as "state"
 
 // connect stores to functional stateless view
+// higher-order component function that creates a view that renders appView
+// and also passes in the stores and higher level state that it can rely upon
 export default Container.createFunctional(AppView, getStores, getState);

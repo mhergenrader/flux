@@ -14,6 +14,7 @@ class TodoDraftStore extends ReduceStore {
     super(TodoDispatcher); // register this store against the dispatcher singleton (superclass does that registration, I imagine)
   }
 
+  // called during construction of the store
   getInitialState() {
     //return Immutable.Map({
     //  [DRAFT_TEXT_KEY]: '',
@@ -26,6 +27,7 @@ class TodoDraftStore extends ReduceStore {
   // (accumulated state of draft contents, updated contents operation) => updated string
   // (accumulated state of draft contents, add operation) => empty string (reset)
 
+  // this method must be pure and have no side effects
   reduce(state, action) {
     switch (action.type) {
       case TodoActionTypes.UPDATE_DRAFT:
@@ -43,6 +45,10 @@ class TodoDraftStore extends ReduceStore {
         return state; // unrecognized action, so no-op
     }
   }
+  // state automatically compared before and after reduce is called; changes
+  // then emitted automatically depending on this check - this is why
+  // good to have immutable data/reference-level differences like before in
+  // raw React
 
 }
 
