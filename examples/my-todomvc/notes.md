@@ -23,3 +23,6 @@
       need it, and their this in the top level is the exports
       object (but perhaps )
 - why do I have to refresh? shouldn't it hot reload automatically?
+- interesting warning when clicking button in edit form:
+  "Form submission canceled because the form is not connected"
+- better way to autofocus the input element in SFC than querySelector? seems a little hacky...

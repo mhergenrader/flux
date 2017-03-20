@@ -28,7 +28,7 @@ const Actions = {
     });
   },
 
-  updateDraft(draftContents) {
+  updateDraft(draftContents) { // another way would be to possibly overload this action for editing todo text as well
     console.log('updating todos draft contents');
     TodoDispatcher.dispatch({
       type: TodoActionTypes.UPDATE_DRAFT,
@@ -48,7 +48,40 @@ const Actions = {
     TodoDispatcher.dispatch({
       type: TodoActionTypes.MARK_ALL_COMPLETE,
     });
-  }
+  },
+
+  startEditingTodo(id, currentTodoText) {
+    console.log('started editing todo');
+    TodoDispatcher.dispatch({
+      type: TodoActionTypes.START_EDITING_TODO,
+      id: id,
+      currentTodoText,
+    });
+  },
+
+  stopEditingTodo(id) {
+    console.log('stopped editing todo');
+    TodoDispatcher.dispatch({
+      type: TodoActionTypes.STOP_EDITING_TODO,
+      id: id, // likely don't really need this - this is just to lear the field/a notification action
+    });
+  },
+
+  editTodo(id, savedTodoText) {
+    console.log('submitting todo edit text');
+    TodoDispatcher.dispatch({
+      type: TodoActionTypes.EDIT_TODO,
+      id,
+      savedTodoText,
+    });
+  },
+
+  editTodoText(updatedTodoText) {
+    console.log('updating todo text');
+    TodoDispatcher.dispatch({
+      updatedTodoText,
+    });
+  },
 };
 
 export default Actions;
