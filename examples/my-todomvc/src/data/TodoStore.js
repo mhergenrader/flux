@@ -64,6 +64,9 @@ class TodoStore extends ReduceStore {
         // at least, that's what it seems like other immutability libraries do,
         // and we know that the store should not be directly mutated
 
+      case TodoActionTypes.CLEAR_COMPLETED:
+        return state.filter(todo => !todo.complete); // wow - look how concise!
+
       default: // any other action = just give the state back as we had it before
         return state;
     }

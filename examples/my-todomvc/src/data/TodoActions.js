@@ -35,6 +35,13 @@ const Actions = {
       draftContents,
     });
   },
+
+  clearCompleted() {
+    console.log('clearing completed actions');
+    TodoDispatcher.dispatch({
+      type: TodoActionTypes.CLEAR_COMPLETED,
+    })
+  },
 };
 
 export default Actions;

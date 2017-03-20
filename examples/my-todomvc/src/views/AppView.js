@@ -1,6 +1,11 @@
 import React from 'react';
 
 // just forwarding along our props here in AppView to the child components
+// this component is quite simple: it just delegates the props received (from
+// the container state, which subscribes to changes from the store specified
+// note that we could split and make a couple of containers here if want to
+// isolate out which views listen to which stores (with the containers effectively
+// serving as the controllers/model servers)
 const AppView = props => (
   <div>
     <section>
@@ -135,9 +140,12 @@ const Footer = props => {
   // since going to replace w/ an expression anyway)
   return (
     <footer id="footer">
-      <span id="todo-count">
-        <strong>{remaining}</strong> {phrase}
-      </span>
+      <p>
+        <span id="todo-count">
+          <strong>{remaining}</strong> {phrase}
+        </span>
+      </p>
+      <button onClick={props.onClearCompleted}>Clear Completed</button>
     </footer>
   );
 };

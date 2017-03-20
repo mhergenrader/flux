@@ -72,6 +72,8 @@ const getState = () => ({
 
   onUpdateDraft: TodoActions.updateDraft,
 
+  onClearCompleted: TodoActions.clearCompleted,
+
 }); // interesting here that they are passed down as "state"
 
 // connect stores to functional stateless view
