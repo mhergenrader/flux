@@ -74,9 +74,16 @@ const getState = () => ({
 
   onClearCompleted: TodoActions.clearCompleted,
 
+  onMarkAllComplete: TodoActions.markAllComplete,
+
 }); // interesting here that they are passed down as "state"
 
 // connect stores to functional stateless view
 // higher-order component function that creates a view that renders appView
 // and also passes in the stores and higher level state that it can rely upon
+// these callbacks are both effectively initializers/executor functions for
+// setting up the new produced component: the first will execute to determine
+// which stores the component should listen for change events from, and then
+// the second is to execute and get the object to send in as props to the
+// newly created UI component
 export default Container.createFunctional(AppView, getStores, getState);

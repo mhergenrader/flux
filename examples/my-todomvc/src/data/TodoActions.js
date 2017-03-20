@@ -42,6 +42,13 @@ const Actions = {
       type: TodoActionTypes.CLEAR_COMPLETED,
     })
   },
+
+  markAllComplete() {
+    console.log('marking all completed');
+    TodoDispatcher.dispatch({
+      type: TodoActionTypes.MARK_ALL_COMPLETE,
+    });
+  }
 };
 
 export default Actions;

@@ -67,6 +67,15 @@ class TodoStore extends ReduceStore {
       case TodoActionTypes.CLEAR_COMPLETED:
         return state.filter(todo => !todo.complete); // wow - look how concise!
 
+      case TodoActionTypes.MARK_ALL_COMPLETE:
+        // return state.map(todo => Object.assign({}, todo, {
+        //   complete: true,
+        // }));/// hmm - doesn't set the key properly?
+        // note below that todo.set returns a new object here, so we can use
+        // this as a no block arrow function
+        return state.map(todo => todo.set('complete', true));
+
+
       default: // any other action = just give the state back as we had it before
         return state;
     }

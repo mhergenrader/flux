@@ -2,6 +2,12 @@
 - careful about how you import! if you export something as default but then use named syntax for importing, you won't get your item! (undefined)
 - only place that should have knowledge of flux is the container, so anything the view needs should be passed down from the container
   - note: view doesn't dispatch actions directly - easier to reuse, test, change views (more modular)
+- wow - the immutable data structure/paradigm is so handy and concise!
+  - reduce just allows us to return some subset of the data easily
+  - easy for the flux stores to determine whether changes need to be emitted via just the
+    == (shallow equals) operator! if so, then the emit the changes, and the containers
+    will receive those changes and create the new view components, forwarding the updated
+    store state and actions, etc. as props to the new UI component
 
 # TODOS
 - use strict at top of each module?

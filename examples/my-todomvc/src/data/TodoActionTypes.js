@@ -6,6 +6,8 @@ const ActionTypes = {
   UPDATE_DRAFT: 'UPDATE_DRAFT',
 
   CLEAR_COMPLETED: 'CLEAR_COMPLETED',
+
+  MARK_ALL_COMPLETE: 'MARK_ALL_COMPLETE',
 };
 
 export default ActionTypes;

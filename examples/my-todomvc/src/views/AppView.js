@@ -114,6 +114,7 @@ const Main = props => {
           ))
         }
       </ul>
+      <button onClick={props.onMarkAllComplete}>Mark All Complete</button>
     </section>
   );
 };
