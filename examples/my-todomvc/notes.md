@@ -8,6 +8,11 @@
     == (shallow equals) operator! if so, then the emit the changes, and the containers
     will receive those changes and create the new view components, forwarding the updated
     store state and actions, etc. as props to the new UI component
+- push to your own repo on github, and just make sure when the notification for compare
+  and pull request pops up, that you just make sure the forked copy is selected (looks
+  like for forked projects, even if you route the push to your own copy, it will suggest
+  the original project to open the pull request for)
+
 
 # TODOS
 - use strict at top of each module?
